@@ -12,6 +12,13 @@ const headers = document.getElementsByTagName('h1');
 
 const fitElements = new FitText(headers);
 ```
+###Regular JS
+```
+var FitText = require('./fittext-content'),
+	headers = document.getElementsByTagName('h1'),
+	fitElements = new FitText(headers);
+```
+Basically the same.
 
 ###Alt Syntax
 If you're not sure whether any elements exist, it's probably safer to instantiate this way:
@@ -26,4 +33,10 @@ This will avoid errors if the headers variable doesn't contain anything.
 The dismount function should be called when the element is removed from the page
 ```
 fitElements.dismount();
+```
+
+###Options
+FitText(content) takes all the regular ol' options from it's predecessor.
+```
+new FitText(header, .8, {minFontSize: 20, maxFontSize: 40});
 ```
