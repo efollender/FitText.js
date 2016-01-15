@@ -5,11 +5,12 @@ var gulp = require('gulp'),
 	  browserify = require('browserify'),
 	  watchify = require('watchify'),
 	  babel = require('babelify'),
+    uglify = require('gulp-uglify'),
 	  path = require('path'),
 	  fs = require('fs');
 
 gulp.task('compile', function() {
-  var bundler = watchify(browserify('./src/demo.js')
+  var bundler = watchify(browserify('./src/fittext-content.js')
       .transform(
         babel.configure({
           sourceMapRelative: path.resolve(__dirname, 'src'),
@@ -20,9 +21,10 @@ gulp.task('compile', function() {
   function rebundle() {
     bundler.bundle()
       .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('build.js'))
+      .pipe(source('fittext-content.js'))
       .pipe(buffer())
-      .pipe(gulp.dest('./build'));
+      .pipe(uglify())
+      .pipe(gulp.dest('.'));
   }
 
   bundler.on('update', function() {
@@ -48,15 +50,8 @@ gulp.task('connectDist', function () {
     livereload: true
   });
 });
- 
-gulp.task('html', function () {
-  gulp.src('./src/index.html')
-    .pipe(gulp.dest('.'))
-    .pipe(connect.reload());
-});
 
 gulp.task('watch', function () {
-  gulp.watch(['./src/index.html'], ['html']);
   gulp.watch(['./src/*.js'], ['compile'] );
 });
  
