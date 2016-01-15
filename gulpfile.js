@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 	  fs = require('fs');
 
 gulp.task('compile', function() {
-  var bundler = watchify(browserify('./src/*.js')
+  var bundler = watchify(browserify('./src/demo.js')
       .transform(
         babel.configure({
           sourceMapRelative: path.resolve(__dirname, 'src'),
@@ -35,7 +35,7 @@ gulp.task('compile', function() {
  
 gulp.task('connectDev', function () {
   connect.server({
-    root: ['src'],
+    root: 'src',
     port: 4000,
     livereload: true
   });
@@ -43,19 +43,20 @@ gulp.task('connectDev', function () {
  
 gulp.task('connectDist', function () {
   connect.server({
-    root: 'build',
+    root: '.',
     port: 4001,
     livereload: true
   });
 });
  
 gulp.task('html', function () {
-  gulp.src('./*.html')
+  gulp.src('./src/index.html')
+    .pipe(gulp.dest('.'))
     .pipe(connect.reload());
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['./index.html'], ['html']);
+  gulp.watch(['./src/index.html'], ['html']);
   gulp.watch(['./src/*.js'], ['compile'] );
 });
  
